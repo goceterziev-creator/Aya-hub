@@ -46,4 +46,55 @@
     <section>
       <h3>Съхранени пътувания</h3>
       <div id="savedTrips">
-        Все още нямаш зап
+        Все още нямаш запазени пътувания.
+      </div>
+    </section>
+
+    <!-- Бележки -->
+    <section>
+      <h3>Лични AYA бележки</h3>
+      <textarea id="notesInput">Италия, Paros, Малдиви, road trip, винарни...</textarea>
+    </section>
+
+    <!-- Клиентски заявки -->
+    <section class="client-box">
+      <h3>📨 Клиентски заявки</h3>
+
+      <div class="entry-box">
+        <h4>Voice</h4>
+        <textarea id="voiceInput" placeholder="Ски от 31.01 до 07.02 2026, Gradonna Resort + ..."></textarea>
+        <button onclick="saveRequest('voice')">Запази заявка</button>
+      </div>
+
+      <div class="entry-box">
+        <h4>WhatsApp</h4>
+        <textarea id="waInput" placeholder="Постави WhatsApp текста тук..."></textarea>
+        <button onclick="saveRequest('wa')">Запази заявка</button>
+      </div>
+
+      <div class="entry-box">
+        <h4>Email</h4>
+        <textarea id="emailInput" placeholder="Постави имейл съдържанието тук..."></textarea>
+        <button onclick="saveRequest('email')">Запази заявка</button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Записани заявки</h3>
+      <div id="savedRequests">Нямаш записани клиентски заявки още.</div>
+    </section>
+
+    <!-- Actions -->
+    <footer>
+      <button onclick="viewOffers()">View Offers</button>
+      <button onclick="savePDF()">Save as PDF</button>
+      <button onclick="bookAYA()">Book with AYA</button>
+    </footer>
+
+    <p class="small-note">С любов от GT63 & AYA • Bibi Personal Edition</p>
+
+  </main>
+
+  <script src="/bibi.js"></script>
+</body>
+</html>
