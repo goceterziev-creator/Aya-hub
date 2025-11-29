@@ -1,1 +1,49 @@
-<html><body><h1>Bibi Personal Panel</h1></body></html>
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bibi × AYA • Personal Edition</title>
+
+  <!-- ВАЖНО: пътищата за Vercel -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="/index.html" class="small-link">← към публичния сайт</a>
+    <h1>Welcome, Bibi 🎂</h1>
+    <p class="subtitle">Твоят личен AYA travel hub</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Примерен полет -->
+    <section class="flight-box">
+      <h3>Днешен примерен полет</h3>
+      <ul>
+        <li>✈ W6 4361 · София → Бари</li>
+        <li>Планиран: 06:00 · Обновен: 09:00</li>
+        <li><span class="status delayed">Статус: Delayed (пример)</span></li>
+      </ul>
+      <p class="small-note">В бъдеща версия тук ще идва информация от реален Flight API.</p>
+    </section>
+
+    <!-- Пътувания -->
+    <section>
+      <h3>Моите пътувания</h3>
+      <label>Дестинация</label>
+      <input id="tripDestination" placeholder="Paros, Bari, Maldives..." />
+
+      <label>Дати</label>
+      <input id="tripDates" placeholder="напр. 5–10 март" />
+
+      <label>Бележка</label>
+      <input id="tripNotes" placeholder="романтика, море, вино..." />
+
+      <button onclick="saveTrip()">Запази пътуване</button>
+    </section>
+
+    <section>
+      <h3>Съхранени пътувания</h3>
+      <div id="savedTrips">
+        Все още нямаш зап
