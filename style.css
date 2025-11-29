@@ -28,6 +28,27 @@ header.site-header {
   margin-bottom: 12px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.05);
 }
+.actions-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.actions-footer button {
+  background-color: #ffb3c6;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.actions-footer button:hover {
+  transform: scale(1.05);
+}
 
 button {
   background: #ffb3c6;
