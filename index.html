@@ -4,289 +4,641 @@
   <meta charset="UTF-8" />
   <title>AYA Hub – Твоят нежен travel hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AYA Hub – AI travel помощник за персонализирани пътувания и VIP планове." />
+
   <style>
     :root {
-      --bg: #04141f;
-      --card: rgba(7, 40, 58, 0.92);
-      --accent: #2fd4c9;
-      --accent-soft: rgba(47, 212, 201, 0.15);
-      --text-main: #f7fbff;
-      --text-muted: #c5d3e0;
-      --danger: #ff6b6b;
-      --gold: #f5d7a3;
-      --radius-lg: 18px;
-      --radius-xl: 26px;
+      --bg-main: #030611;
+      --turquoise: #35f0d0;
+      --turquoise-soft: rgba(53, 240, 208, 0.25);
+      --gold: #f4d58d;
+      --card-bg: rgba(3, 8, 24, 0.75);
+      --glass-bg: rgba(8, 20, 48, 0.85);
+      --text-main: #f8fbff;
+      --text-soft: #c0c7dd;
+      --accent-danger: #ff6b81;
+      --border-glass: rgba(255, 255, 255, 0.25);
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.6);
+      --radius-2xl: 26px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0b263a, #020711);
-      color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 24px 16px 40px;
-    }
-    .phone-shell {
-      max-width: 420px;
-      width: 100%;
-      background: radial-gradient(circle at top, #183c52, #050a10);
-      border-radius: 32px;
-      padding: 18px 12px;
-      box-shadow:
-        0 0 0 2px rgba(255,255,255,0.04),
-        0 30px 80px rgba(0,0,0,0.75);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left, #16324a, #030611 55%, #000000 100%);
+      overflow-x: hidden;
       position: relative;
-      overflow: hidden;
     }
-    .status-bar {
+
+    /* 50/50 FACE BACKGROUND – леко прозрачен */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -10%;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(53, 240, 208, 0.18), transparent 60%),
+        radial-gradient(circle at 90% 80%, rgba(244, 213, 141, 0.25), transparent 55%),
+        url("img/aya-face-5050.png"); /* <-- ТУК слагаш 50/50 лице (човек/AI) */
+      background-position: center right;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.17;
+      filter: saturate(1.1) contrast(1.02) blur(1px);
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    /* Тъмен overlay за по-добра четимост */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top left, transparent, rgba(0, 0, 0, 0.65));
+      z-index: -1;
+    }
+
+    .page-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 18px 40px;
+    }
+
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      opacity: 0.85;
+      margin-bottom: 32px;
+      gap: 16px;
     }
-    .screen {
-      background: linear-gradient(145deg, #0d2737, #07141e);
-      border-radius: 26px;
-      padding: 20px 16px 18px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.02),
-        0 18px 40px rgba(0,0,0,0.6);
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    h1 {
-      font-size: 24px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-    .subtitle {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-    .card {
-      background: linear-gradient(145deg,
-        rgba(7, 45, 68, 0.95),
-        rgba(3, 22, 34, 0.98));
-      border-radius: var(--radius-lg);
-      padding: 14px 12px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(194, 237, 255, 0.12);
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.45),
-        inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
-    }
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .flight-row {
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-    .dot {
-      display: inline-block;
-      width: 5px;
-      height: 5px;
+
+    .logo-orb {
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
-      margin-right: 6px;
+      background: radial-gradient(circle at 30% 20%, #eaffff, #35f0d0 40%, #0b1f33 100%);
+      box-shadow:
+        0 0 14px rgba(53, 240, 208, 0.7),
+        0 0 40px rgba(8, 238, 200, 0.45);
     }
-    .dot-green { background: #2fd4c9; }
-    .dot-red { background: var(--danger); }
-    .muted { color: var(--text-muted); }
-    .badge {
+
+    .logo-text-main {
+      letter-spacing: 0.18em;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .logo-text-sub {
+      font-size: 0.8rem;
+      color: rgba(192, 199, 221, 0.8);
+    }
+
+    .contact-mini {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .contact-mini a {
+      color: var(--turquoise);
+      text-decoration: none;
+    }
+
+    /* MAIN GRID */
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.6fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 880px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .page-wrap {
+        padding-inline: 16px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .contact-mini {
+        text-align: left;
+      }
+    }
+
+    /* LEFT: HUB CARD */
+
+    .hub-card {
+      position: relative;
+      border-radius: var(--radius-2xl);
+      padding: 26px 22px 24px;
+      background: linear-gradient(
+          135deg,
+          rgba(7, 20, 38, 0.95),
+          rgba(12, 34, 66, 0.88)
+        );
+      border: 1px solid rgba(191, 236, 255, 0.16);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .hub-card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(53, 240, 208, 0.35), transparent 55%),
+        radial-gradient(circle at 90% 85%, rgba(244, 213, 141, 0.25), transparent 55%);
+      opacity: 0.65;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hub-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
+      gap: 8px;
+      padding: 5px 11px;
       border-radius: 999px;
-      background: rgba(4,27,38,0.8);
-      border: 1px solid rgba(47,212,201,0.35);
-      font-size: 11px;
-      color: var(--accent);
+      background: rgba(3, 9, 24, 0.85);
+      border: 1px solid rgba(196, 241, 255, 0.35);
+      box-shadow: 0 0 18px rgba(53, 240, 208, 0.4);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--turquoise);
+      margin-bottom: 14px;
+    }
+
+    .hub-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--turquoise);
+    }
+
+    h1 {
+      font-family: "Cinzel", "Times New Roman", serif;
+      font-size: clamp(1.9rem, 2.3rem, 2.4rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 16px;
+      max-width: 26rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(13, 35, 68, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 16px;
+      color: var(--text-soft);
+    }
+
+    .status-pill span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #37ff9e;
+      box-shadow: 0 0 10px rgba(55, 255, 158, 0.8);
+    }
+
+    /* примерен полет */
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(192, 199, 221, 0.74);
+      margin-bottom: 8px;
+    }
+
+    .flight-card {
+      background: rgba(7, 19, 42, 0.95);
+      border-radius: 18px;
+      padding: 12px 13px 11px;
+      border: 1px solid var(--border-glass);
+      margin-bottom: 16px;
+    }
+
+    .flight-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 6px;
+      font-size: 0.87rem;
     }
-    form {
-      margin-top: 6px;
+
+    .flight-main strong {
+      font-weight: 600;
+    }
+
+    .flight-main span.route {
+      color: var(--text-soft);
+      font-size: 0.84rem;
+    }
+
+    .flight-meta {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    input, textarea, select {
-      width: 100%;
-      margin-top: 3px;
-      padding: 9px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(188, 215, 232, 0.22);
-      background: rgba(1, 11, 18, 0.85);
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-    }
-    textarea {
-      border-radius: var(--radius-lg);
-      min-height: 60px;
-      resize: vertical;
-    }
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(173, 200, 220, 0.7);
-    }
-    .inline {
-      display: flex;
-      gap: 8px;
-    }
-    .inline .field {
-      flex: 1;
-    }
-    .helper {
-      font-size: 11px;
-      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
       margin-top: 2px;
     }
-    .tiers {
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--text-muted);
-      border-radius: var(--radius-lg);
-      background: rgba(1, 13, 22, 0.85);
-      padding: 8px 9px;
-    }
-    .tiers strong { color: var(--accent); }
-    .btn-main {
+
+    .status-row {
       margin-top: 4px;
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 11px 10px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
+      font-size: 0.8rem;
+      color: var(--accent-danger);
+    }
+
+    /* FORM */
+
+    .hub-form {
+      margin-top: 12px;
+      padding: 13px 13px 12px;
+      border-radius: 20px;
+      background: rgba(4, 11, 30, 0.95);
+      border: 1px solid rgba(191, 236, 255, 0.2);
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .field {
+      flex: 1 1 140px;
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      background: radial-gradient(circle at top, #36e5d7, #1ba99d);
-      color: #021212;
-      cursor: pointer;
-      box-shadow:
-        0 14px 30px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(0,0,0,0.4);
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+      color: rgba(192, 199, 221, 0.9);
     }
-    .btn-main:active {
-      transform: translateY(1px);
-      box-shadow:
-        0 8px 16px rgba(0,0,0,0.7);
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 11px;
+      border: 1px solid rgba(134, 178, 209, 0.55);
+      background: rgba(3, 10, 27, 0.92);
+      color: var(--text-main);
+      font-size: 0.83rem;
+      outline: none;
     }
-    .footer {
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-muted);
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(192, 199, 221, 0.7);
+      font-size: 0.8rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 56px;
+    }
+
+    .hub-form-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-top: 10px;
+      align-items: center;
+      justify-content: space-between;
     }
-    .footer a {
-      color: var(--accent);
+
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle at 20% 0%, #eaffff, #35f0d0 40%, #0b1f33 100%);
+      color: #032428;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      box-shadow:
+        0 0 20px rgba(53, 240, 208, 0.7),
+        0 18px 40px rgba(0, 0, 0, 0.9);
       text-decoration: none;
+    }
+
+    .btn-main span.icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(3, 36, 40, 0.18);
+      box-shadow: inset 0 0 0 1px rgba(2, 46, 52, 0.55);
+    }
+
+    .hint {
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      max-width: 15rem;
+    }
+
+    /* RIGHT: ПАКЕТИ 20/40/60 */
+
+    .plans-card {
+      border-radius: var(--radius-2xl);
+      padding: 22px 20px 20px;
+      background: var(--glass-bg);
+      border: 1px solid rgba(244, 213, 141, 0.55);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plans-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(244, 213, 141, 0.3), transparent 60%),
+        radial-gradient(circle at 90% 100%, rgba(53, 240, 208, 0.18), transparent 55%);
+      opacity: 0.6;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .plans-title {
+      font-family: "Cinzel", "Times New Roman", serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .plans-sub {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-bottom: 14px;
+      max-width: 18rem;
+    }
+
+    .plan-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .plan-item {
+      border-radius: 16px;
+      padding: 10px 11px 9px;
+      background: rgba(6, 14, 34, 0.96);
+      border: 1px solid rgba(244, 213, 141, 0.4);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 10px;
+      align-items: center;
+      font-size: 0.83rem;
+    }
+
+    .plan-name {
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .plan-price {
+      font-weight: 700;
+      color: var(--turquoise);
+      font-size: 1rem;
+    }
+
+    .plan-desc {
+      grid-column: 1 / -1;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .note {
+      font-size: 0.76rem;
+      color: rgba(192, 199, 221, 0.86);
+      margin-bottom: 10px;
+    }
+
+    .contact-block {
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .contact-block a {
+      color: var(--turquoise);
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 26px;
+      font-size: 0.72rem;
+      color: rgba(144, 155, 189, 0.85);
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="phone-shell">
-    <div class="status-bar">
-      <span>AYA Hub</span>
-      <span>13:00 · LTE</span>
-    </div>
-    <div class="screen">
-      <h1>AYA Hub</h1>
-      <div class="subtitle">Твоят нежен travel hub</div>
-
-      <!-- Примерен полет -->
-      <div class="card">
-        <div class="card-title">Днешен примерен полет</div>
-        <div class="flight-row">
-          <span class="dot dot-green"></span>
-          <span class="muted">W6 4361 · София → Бари</span>
-        </div>
-        <div class="flight-row muted">
-          Планиран: 06:00 · Обновен: 09:00
-        </div>
-        <div class="flight-row" style="margin-top:4px;">
-          <span class="dot dot-red"></span>
-          <span class="muted">Статус: <span style="color:var(--danger);">Delayed (пример)</span></span>
+  <div class="page-wrap">
+    <header>
+      <div class="logo-wrap">
+        <div class="logo-orb"></div>
+        <div>
+          <div class="logo-text-main">AYA HUB</div>
+          <div class="logo-text-sub">Neural travel companion</div>
         </div>
       </div>
+      <div class="contact-mini">
+        WhatsApp: <a href="https://wa.me/359894842882" target="_blank">+359 894 842 882</a><br />
+        E-mail: <a href="mailto:aya.smart.store@gmail.com">aya.smart.store@gmail.com</a>
+      </div>
+    </header>
 
-      <!-- Форма за ново пътуване -->
-      <div class="card">
-        <div class="badge">Ново запитване за пътуване</div>
-        <div class="card-title">Моите пътувания</div>
+    <main class="grid">
+      <!-- LEFT: HUB + ФОРМА -->
+      <section class="hub-card">
+        <div class="hub-chip">
+          <span class="hub-chip-dot"></span>
+          <span>Personal AI travel hub</span>
+        </div>
 
-        <form method="POST" data-netlify="true" name="aya-hub-request">
-          <input type="hidden" name="form-name" value="aya-hub-request" />
+        <h1>AYA Hub</h1>
+        <p class="subtitle">
+          Запази заявка за пътуване, без да ровиш в десетки сайтове. AYA събира идеите ти и ги превръща в конкретен план.
+        </p>
 
-          <div class="field">
-            <label>Дестинация(и)</label>
-            <input name="destination" placeholder="Малдиви, Дубай, Сингапур..." required />
+        <div class="status-pill">
+          <span class="dot"></span>
+          <span>Отговор до 24 часа • Безплатно първоначално предложение</span>
+        </div>
+
+        <div class="section-label">Днешен примерен полет</div>
+        <div class="flight-card">
+          <div class="flight-main">
+            <strong>W6 4361 · София → Бари</strong>
+            <span class="route">Планиран: 06:00 • Обновен: 09:00</span>
           </div>
+          <div class="flight-meta">
+            <span>Статус: <span style="color: var(--accent-danger);">Delayed (пример)</span></span>
+            <span>Клас: Economy</span>
+          </div>
+        </div>
 
-          <div class="inline">
+        <div class="section-label">Моето следващо пътуване</div>
+        <form
+          class="hub-form"
+          action="https://wa.me/359894842882"
+          method="get"
+          target="_blank"
+        >
+          <div class="form-row">
             <div class="field">
-              <label>Период / месец</label>
-              <input name="dates" placeholder="напр. 5–12 март 2026" required />
+              <label for="destination">Дестинация</label>
+              <input
+                id="destination"
+                name="destination"
+                type="text"
+                placeholder="Малдиви, Дубай, Бали..."
+              />
             </div>
             <div class="field">
-              <label>Хора</label>
-              <input name="people" placeholder="2 възр. + 2 деца" />
+              <label for="dates">Период</label>
+              <input
+                id="dates"
+                name="dates"
+                type="text"
+                placeholder="напр. 5–12 март 2026"
+              />
             </div>
           </div>
 
-          <div class="field">
-            <label>Какво търсите?</label>
-            <input name="vibe" placeholder="лукс, меден месец, спокойно море..." />
+          <div class="field" style="margin-bottom: 6px;">
+            <label for="people">Гости</label>
+            <input
+              id="people"
+              name="people"
+              type="text"
+              placeholder="напр. 2 възрастни + 2 деца"
+            />
           </div>
 
           <div class="field">
-            <label>Приблизителен бюджет (по желание)</label>
-            <input name="budget" placeholder="напр. 3000–4000 € общо" />
+            <label for="notes">Какво ти е важно?</label>
+            <textarea
+              id="notes"
+              name="notes"
+              placeholder="лукс, близо до плажа, спа, само директни полети..."
+            ></textarea>
           </div>
 
-          <div class="field">
-            <label>Контакт e-mail</label>
-            <input type="email" name="email" required placeholder="you@example.com" />
+          <div class="hub-form-footer">
+            <button class="btn-main" type="submit">
+              <span class="icon"></span>
+              <span>Изпрати в WhatsApp</span>
+            </button>
+            <p class="hint">
+              Натискаш бутона → отваря се WhatsApp с готов текст. Ти само го потвърждаваш и изпращаш.
+            </p>
           </div>
-
-          <div class="field">
-            <label>WhatsApp номер</label>
-            <input name="whatsapp" placeholder="+359 894 842 882" />
-            <div class="helper">
-              Ще ти отговорим по e-mail и/или WhatsApp с кратък безплатен ориентир
-              и предложение за платен план (20 / 40 / 60 лв).
-            </div>
-          </div>
-
-          <div class="tiers">
-            <strong>AYA Hub нива:</strong><br />
-            • 20 лв – бърз ориентир (без линкове)<br />
-            • 40 лв – подробен план с конкретни линкове<br />
-            • 60 лв – пълен care + съдействие за резервации
-          </div>
-
-          <button class="btn-main" type="submit">Изпрати запитване</button>
         </form>
-      </div>
+      </section>
 
-      <div class="footer">
-        AYA Hub · запитвания: <a href="mailto:aya.smart.store@gmail.com">aya.smart.store@gmail.com</a><br/>
-        WhatsApp: +359 894 842 882
-      </div>
-    </div>
+      <!-- RIGHT: ПАКЕТИ -->
+      <aside class="plans-card">
+        <div class="plans-title">AYA Travel Plan</div>
+        <p class="plans-sub">
+          Екипът на AYA събира информация, филтрира вариантите и ти връща подреден план според бюджета и стила ти.
+        </p>
+
+        <div class="plan-list">
+          <div class="plan-item">
+            <div class="plan-name">Mini план</div>
+            <div class="plan-price">20 лв</div>
+            <div class="plan-desc">
+              Идея за маршрут, 2–3 примерни дестинации/хотела и ориентировъчни цени. Без линкове и резервации.
+            </div>
+          </div>
+
+          <div class="plan-item">
+            <div class="plan-name">Линкове &amp; детайли</div>
+            <div class="plan-price">40 лв</div>
+            <div class="plan-desc">
+              Пълен списък с подбрани линкове за полети и нощувки + кратко обяснение защо са избрани именно те.
+              Резервациите ги правиш ти.
+            </div>
+          </div>
+
+          <div class="plan-item">
+            <div class="plan-name">Full Care</div>
+            <div class="plan-price">60 лв</div>
+            <div class="plan-desc">
+              План + линкове + съдействие при самите резервации (онлайн, по телефон или чат), докато всичко е финализирано.
+            </div>
+          </div>
+        </div>
+
+        <p class="note">
+          Първоначалното предложение (какво можем да направим за теб) е безплатно. Плащаш само ако решиш да работим по конкретно пътуване.
+        </p>
+
+        <div class="contact-block">
+          📧 E-mail: <a href="mailto:aya.smart.store@gmail.com">aya.smart.store@gmail.com</a><br />
+          📱 WhatsApp: <a href="https://wa.me/359894842882" target="_blank">+359 894 842 882</a><br />
+          <span style="color: rgba(244,213,141,0.9);">AYA – AI travel design за истински хора.</span>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      AYA Hub · Туркуаз + Noir Gold · Prototype v1.0
+    </footer>
   </div>
 </body>
 </html>
