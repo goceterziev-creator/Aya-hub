@@ -268,5 +268,59 @@ emailBtn.addEventListener("click", ()=>{
 });
 </script>
 
+<script>
+const dest   = document.getElementById('dest');
+const dates  = document.getElementById('dates');
+const people = document.getElementById('people');
+const budget = document.getElementById('budget');
+const sendBtn  = document.getElementById('sendBtn');
+const emailBtn = document.getElementById('emailBtn');
+
+function buildMessage(){
+  const map = {
+    normal: "Нормален",
+    medium: "Среден",
+    luxury: "Лукс"
+  };
+
+  const b = map[budget.value] || budget.value || "неуточнен";
+
+  return `Запитване от AYA Hub:
+
+Дестинация: ${dest.value}
+Дати: ${dates.value}
+Брой пътуващи: ${people.value}
+Бюджет: ${b}
+`;
+}
+
+function allFilled(){
+  return dest.value && dates.value && people.value && budget.value;
+}
+
+sendBtn.addEventListener('click', () => {
+  if(!allFilled()){
+    alert("Моля, попълнете всички полета.");
+    return;
+  }
+  const msg = buildMessage();
+  const phone = "359894842882"; // твоя номер
+  window.open(
+    `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
+});
+
+emailBtn.addEventListener('click', () => {
+  if(!allFilled()){
+    alert("Моля, попълнете всички полета.");
+    return;
+  }
+  const msg = buildMessage();
+  const mail = "aya.smart.store@gmail.com";
+  window.location.href =
+    `mailto:${mail}?subject=Запитване от AYA Hub&body=${encodeURIComponent(msg)}`;
+});
+</script>
 </body>
 </html>
