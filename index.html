@@ -59,10 +59,30 @@ body::before {
   width: 100%;
   max-width: 430px;
   border-radius: 22px;
-  padding: 26px;
-  background: rgba(5,15,20,0.35); /* почти прозрачна */
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.05);
+  padding: 28px;
+
+  /* ⬇️ НЯМА ФОН */
+  background: transparent;
+
+  /* ⬇️ Само мек контур + леко стъкло */
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 20px 60px rgba(0,0,0,0.45);
+}
+
+  .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  background: rgba(255,255,255,0.03);
+  pointer-events: none;
+  position: relative;
 }
 
 /* ===== TEXT ===== */
