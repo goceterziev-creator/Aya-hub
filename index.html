@@ -240,96 +240,211 @@
     </div>
 
     <script>
-        // DOM Elements
-        const formWrap = document.getElementById('formWrap');
-        const budgetSelect = document.getElementById('budget');
-        const inputs = document.querySelectorAll('#dest, #dates, #people, #budget');
-        const whatsappBtn = document.getElementById('whatsappBtn');
-        const emailBtn = document.getElementById('emailBtn');
+        // ============================================
+// ОБНОВЕН КОД за AYA HUB v2.0 - Интеграция с myte.travel
+// ============================================
+
+// Функция за валидация
+function validateForm() {
+    const dest = document.getElementById('dest').value.trim();
+    const dates = document.getElementById('dates').value.trim();
+    const people = document.getElementById('people').value.trim();
+    const budget = document.getElementById('budget').value;
+    
+    if (!dest || !dates || !people || !budget || budget === 'Избери бюджет') {
+        alert('❌ Моля, попълнете всички полета правилно!');
+        return false;
+    }
+    return true;
+}
+
+// ОСНОВНА ФУНКЦИЯ - обновена за интеграция с бекенда
+async function handleTravelRequest() {
+    const sendBtn = document.getElementById('whatsappBtn'); // Променено от 'sendBtn' на 'whatsappBtn'
+    const originalText = sendBtn.textContent;
+    
+    // 1. Валидация
+    if (!validateForm()) return;
+    
+    // 2. Вземане на данни
+    const formData = {
+        destination: document.getElementById('dest').value.trim(),
+        dates: document.getElementById('dates').value.trim(),
+        people: parseInt(document.getElementById('people').value) || 2,
+        budget: document.getElementById('budget').value
+    };
+    
+    // 3. Промяна на бутона
+    sendBtn.textContent = '🔍 Анализирам и търся...';
+    sendBtn.disabled = true;
+    
+    try {
+        console.log('🚀 Изпращам заявка до AYA бекенд:', formData);
         
-        // Budget glow effect
-        budgetSelect.addEventListener('change', (e) => {
+        // 4. ИЗПРАЩАМЕ ДО НАШИЯ БЕКЕНД
+        const response = await fetch('http://localhost:3000/api/travel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        // 5. Проверка за грешки в отговора
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Сървърна грешка ${response.status}: ${errorText}`);
+        }
+        
+        const result = await response.json();
+        console.log('✅ Отговор от бекенда:', result);
+        
+        // 6. Проверка дали заявката е успешна
+        if (!result.success) {
+            throw new Error(result.message || 'Неуспешна обработка от сървъра');
+        }
+        
+        // 7. СЪЗДАВАНЕ НА БОГАТО СЪОБЩЕНИЕ С РЕЗУЛТАТИТЕ
+        let whatsappMessage = `*✅ НОВА ЗАЯВКА - AYA HUB v2.0*\n`;
+        whatsappMessage += `*ID:* ${result.requestId}\n`;
+        whatsappMessage += `*═══════════════════════*\n\n`;
+        
+        // Детайли от формата
+        whatsappMessage += `*📌 Детайли на заявката:*\n`;
+        whatsappMessage += `• *Дестинация:* ${formData.destination}\n`;
+        whatsappMessage += `• *Дата:* ${formData.dates}\n`;
+        whatsappMessage += `• *Пътници:* ${formData.people}\n`;
+        whatsappMessage += `• *Бюджет:* ${formData.budget}\n\n`;
+        
+        // Резултати от анализ
+        whatsappMessage += `*📊 Резултати от анализа:*\n`;
+        whatsappMessage += `• ${result.apiStatus}\n`;
+        whatsappMessage += `• Намерени оферти: ${result.offers.length}\n`;
+        whatsappMessage += `• Ценов диапазон: ${result.summary.priceRange}\n\n`;
+        
+        // Топ оферта (ако има)
+        if (result.offers.length > 0) {
+            const bestOffer = result.offers[0];
+            whatsappMessage += `*🏆 Препоръчана оферта:*\n`;
+            whatsappMessage += `• ${bestOffer.description}\n`;
+            whatsappMessage += `• Цена: ${bestOffer.price} лв.\n`;
+            whatsappMessage += `• ${bestOffer.details}\n\n`;
+        }
+        
+        whatsappMessage += `*═══════════════════════*\n`;
+        whatsappMessage += `_Заявката е готова за обработка в системата._\n`;
+        whatsappMessage += `_AYA Hub v2.0 • myte.travel интеграция_`;
+        
+        // 8. ОТВАРЯНЕ НА WHATSAPP
+        const phone = '359894842882';
+        const encodedMessage = encodeURIComponent(whatsappMessage);
+        const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+        
+        console.log('📱 WhatsApp линк генериран:', whatsappUrl);
+        
+        // Автоматично отваряне на WhatsApp
+        window.open(whatsappUrl, '_blank');
+        
+        // 9. ПОКАЗВАНЕ НА УСПЕХ НА ПОТРЕБИТЕЛЯ
+        alert(`✅ Успешно изпратена заявка!\n\n` +
+              `ID: ${result.requestId}\n` +
+              `Оферти: ${result.offers.length}\n` +
+              `Цени: ${result.summary.priceRange}\n\n` +
+              `WhatsApp се отваря автоматично...`);
+        
+    } catch (error) {
+        console.error('❌ Грешка при обработка:', error);
+        
+        // FALLBACK: директно изпращане към WhatsApp
+        const fallbackMessage = `Заявка от AYA Hub:\n\n` +
+                               `Дестинация: ${formData.destination}\n` +
+                               `Дата: ${formData.dates}\n` +
+                               `Пътници: ${formData.people}\n` +
+                               `Бюджет: ${formData.budget}`;
+        
+        alert(`⚠️ Временна грешка в системата:\n${error.message}\n\n` +
+              `Изпращам директно заявката към WhatsApp...`);
+        
+        const phone = '359894842882';
+        const fallbackUrl = `https://wa.me/${phone}?text=${encodeURIComponent(fallbackMessage)}`;
+        
+        window.open(fallbackUrl, '_blank');
+        
+    } finally {
+        // 10. ВЪЗСТАНОВЯВАНЕ НА БУТОНА
+        sendBtn.textContent = originalText;
+        sendBtn.disabled = false;
+    }
+}
+
+// Инициализация при зареждане на страницата
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Свързване на WhatsApp бутона
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', handleTravelRequest);
+        console.log('✅ WhatsApp бутонът е конфигуриран за интеграция с бекенда!');
+    } else {
+        console.error('❌ Не мога да намеря бутона "whatsappBtn"');
+    }
+    
+    // 2. Свързване на Email бутона (fallback функция)
+    const emailBtn = document.getElementById('emailBtn');
+    if (emailBtn) {
+        emailBtn.addEventListener('click', function() {
+            if (!validateForm()) return;
+            
+            const message = `Заявка от AYA Hub:\n\n` +
+                           `Дестинация: ${document.getElementById('dest').value}\n` +
+                           `Дата: ${document.getElementById('dates').value}\n` +
+                           `Брой пътници: ${document.getElementById('people').value}\n` +
+                           `Бюджет: ${document.getElementById('budget').value}`;
+            
+            const subject = 'Нова заявка от AYA Hub';
+            const email = 'aya.smart.store@gmail.com';
+            const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            
+            window.location.href = mailtoUrl;
+        });
+        console.log('✅ Email бутонът е конфигуриран!');
+    }
+    
+    // 3. Budget glow effect (запазваме оригиналния ефект)
+    const budgetSelect = document.getElementById('budget');
+    const formWrap = document.getElementById('formWrap');
+    
+    if (budgetSelect && formWrap) {
+        budgetSelect.addEventListener('change', function(e) {
             formWrap.dataset.budget = e.target.value;
         });
+        console.log('✅ Budget glow effect е активен!');
+    }
+    
+    // 4. Ready state за бутоните (визуален ефект)
+    const inputs = document.querySelectorAll('#dest, #dates, #people, #budget');
+    
+    function updateReadyState() {
+        const allFilled = Array.from(inputs).every(input => 
+            input.value && input.value.trim() !== ''
+        );
         
-        // Ready state for buttons
-        function updateReadyState() {
-            const allFilled = Array.from(inputs).every(input => 
-                input.value && input.value.trim() !== ''
-            );
-            
-            if (allFilled) {
-                whatsappBtn.classList.add('ready');
-                emailBtn.classList.add('ready');
-            } else {
-                whatsappBtn.classList.remove('ready');
-                emailBtn.classList.remove('ready');
-            }
+        if (allFilled) {
+            whatsappBtn?.classList.add('ready');
+            emailBtn?.classList.add('ready');
+        } else {
+            whatsappBtn?.classList.remove('ready');
+            emailBtn?.classList.remove('ready');
         }
-        
-        inputs.forEach(input => {
-            input.addEventListener('input', updateReadyState);
-            input.addEventListener('change', updateReadyState);
-        });
-        
-        // Build message
-        function buildMessage() {
-            const dest = document.getElementById('dest').value.trim();
-            const dates = document.getElementById('dates').value.trim();
-            const people = document.getElementById('people').value.trim();
-            const budgetValue = budgetSelect.value;
-            
-            const budgetMap = {
-                normal: 'Нормален',
-                medium: 'Среден', 
-                luxury: 'Лукс'
-            };
-            
-            const budgetText = budgetMap[budgetValue] || budgetValue || 'неуточнен';
-            
-            return `Заявка от AYA Hub:
-
-Дестинация: ${dest}
-Дати: ${dates}
-Брой пътуващи: ${people}
-Бюджет: ${budgetText}`;
-        }
-        
-        // Validate form
-        function validateForm() {
-            const allFilled = Array.from(inputs).every(input => 
-                input.value && input.value.trim() !== ''
-            );
-            
-            if (!allFilled) {
-                alert('Моля, попълнете всички полета преди изпращане.');
-                return false;
-            }
-            return true;
-        }
-        
-        // WhatsApp button
-        whatsappBtn.addEventListener('click', () => {
-            if (!validateForm()) return;
-            
-            const message = buildMessage();
-            const phone = '359894842882'; // Your WhatsApp number
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            
-            window.open(url, '_blank');
-        });
-        
-        // Email button  
-        emailBtn.addEventListener('click', () => {
-            if (!validateForm()) return;
-            
-            const message = buildMessage();
-            const email = 'aya.smart.store@gmail.com';
-            const subject = 'Запитване за пътуване от AYA Hub';
-            const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-            
-            window.location.href = url;
-        });
+    }
+    
+    inputs.forEach(input => {
+        input.addEventListener('input', updateReadyState);
+        input.addEventListener('change', updateReadyState);
+    });
+    
+    console.log('🎯 AYA Hub v2.0 е напълно инициализиран и готов!');
+});
     </script>
 </body>
 </html>
