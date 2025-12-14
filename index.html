@@ -1,497 +1,335 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AYA Hub – Private AI Travel Design</title>
-
-<style>
-:root{
-  --accent:#3de0d1;
-  --text-main:#eaf6f6;
-}
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text-main);
-  background:radial-gradient(circle at top left,#16324a,#030611 55%,#000 100%);
-  overflow-x:hidden;
-  position:relative;
-}
-
-/* AYA BACKGROUND */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-10%;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(53,240,208,.18), transparent 60%),
-    radial-gradient(circle at 90% 80%, rgba(244,213,141,.22), transparent 55%),
-    url("img/aya-face-5050.png");
-  background-position:center right;
-  background-size:cover;
-  background-repeat:no-repeat;
-  opacity:.55;
-  pointer-events:none;
-  z-index:-1;
-}
-
-/* MAIN CARD */
-.wrap{
-  max-width:420px;
-  margin:6vh auto;
-  padding:32px 26px;
-  border-radius:22px;
-  background:rgba(10,18,30,.35); /* ПРОЗРАЧНО */
-  backdrop-filter:blur(6px);
-  box-shadow:0 30px 120px rgba(0,0,0,.55);
-}
-
-/* TITLES */
-h1{margin:0 0 6px;font-size:28px;font-weight:600}
-.subtitle{opacity:.75;margin-bottom:24px}
-
-/* FORM */
-label{font-size:13px;opacity:.75}
-input,select{
-  width:100%;
-  background:transparent;
-  border:none;
-  border-bottom:1px solid rgba(255,255,255,.25);
-  padding:10px 4px;
-  margin:6px 0 20px;
-  color:var(--text-main);
-  font-size:15px;
-}
-select option{color:#000}
-
-/* BUTTONS */
-button{
-  width:100%;
-  border:none;
-  border-radius:999px;
-  padding:14px;
-  margin-top:12px;
-  font-size:15px;
-  font-weight:500;
-  cursor:pointer;
-  background:linear-gradient(90deg,#2fe3c8,#38bdf8);
-  color:#001;
-}
-.secondary{margin-top:8px}
-
-/* TRUST */
-.privacy-note{
-  font-size:12px;
-  opacity:.6;
-  text-align:center;
-  margin-top:14px;
-}
-
-/* PRICING */
-.pricing{
-  margin-top:50px;
-}
-.pricing h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-.price-box{
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:18px;
-  background:rgba(0,0,0,.3);
-}
-.price-box h3{
-  margin:0 0 8px;
-  color:var(--accent);
-}
-.price-box ul{
-  padding-left:18px;
-  margin:8px 0;
-}
-.price-box small{
-  opacity:.65;
-  font-size:12px;
-}
-
-/* FOOTER */
-.footer{
-  text-align:center;
-  opacity:.55;
-  font-size:12px;
-  margin-top:20px;
-}
-</style>
+  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYA Hub v2.0 - AI Travel Design</title>
+    <style>
+        :root {
+            --accent: #3de0d1;
+            --text-main: #eaf6f6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            background: radial-gradient(circle at top left, #16324a, #030611 55%, #000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -10%;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(53, 240, 208, 0.18), transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(244, 213, 141, 0.22), transparent 55%);
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .wrap {
+            max-width: 420px;
+            width: 100%;
+            padding: 32px 26px;
+            border-radius: 22px;
+            background: rgba(10, 18, 30, 0.35);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 120px rgba(0, 0, 0, 0.55);
+            margin: 20px auto;
+        }
+        
+        h1 { 
+            margin: 0 0 6px; 
+            font-size: 28px; 
+            font-weight: 600; 
+        }
+        
+        .subtitle { 
+            opacity: 0.75; 
+            margin-bottom: 26px; 
+        }
+        
+        label { 
+            font-size: 13px; 
+            opacity: 0.75; 
+            display: block; 
+            margin-top: 16px; 
+        }
+        
+        input, select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 10px 4px;
+            margin: 6px 0 20px;
+            color: var(--text-main);
+            font-size: 15px;
+        }
+        
+        select option { color: #000; }
+        
+        /* GLOW EFFECTS FOR BUDGET */
+        .wrap[data-budget="normal"] {
+            box-shadow: 0 0 0 1px rgba(120, 200, 255, 0.35), 0 30px 100px rgba(0, 0, 0, 0.6);
+        }
+        .wrap[data-budget="medium"] {
+            box-shadow: 0 0 0 1px rgba(80, 220, 200, 0.45), 0 30px 100px rgba(0, 0, 0, 0.6);
+        }
+        .wrap[data-budget="luxury"] {
+            box-shadow: 0 0 0 1px rgba(255, 215, 120, 0.55), 0 30px 120px rgba(0, 0, 0, 0.7);
+        }
+        
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            background: linear-gradient(90deg, #2fe3c8, #38bdf8);
+            color: #001;
+            transition: all 0.25s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+        }
+        
+        button.secondary {
+            background: linear-gradient(90deg, #33e6c2, #3bd4ff);
+            margin-top: 10px;
+        }
+        
+        button.ready {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(80, 220, 200, 0.4);
+        }
+        
+        .privacy-note {
+            font-size: 12px;
+            opacity: 0.6;
+            text-align: center;
+            margin-top: 14px;
+        }
+        
+        /* PRICING SECTION */
+        .pricing {
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+        }
+        
+        .pricing h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .price-box {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 18px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .price-box h3 {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-size: 22px;
+        }
+        
+        .price-box ul {
+            padding-left: 18px;
+            margin: 12px 0;
+        }
+        
+        .price-box small {
+            opacity: 0.65;
+            font-size: 12px;
+            display: block;
+            margin-top: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            opacity: 0.55;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <div class="wrap" id="formWrap">
+        <h1>AYA Hub</h1>
+        <div class="subtitle">Private AI Travel Design</div>
+        
+        <label for="dest">Дестинация</label>
+        <input id="dest" type="text" placeholder="Maldives, Dubai, Paris…">
+        
+        <label for="dates">Дати</label>
+        <input id="dates" type="text" placeholder="напр. 10 – 15 март">
+        
+        <label for="people">Брой пътуващи</label>
+        <input id="people" type="number" placeholder="напр. 2">
+        
+        <label for="budget">Бюджет</label>
+        <select id="budget">
+            <option value="">Избери бюджет</option>
+            <option value="normal">Нормален</option>
+            <option value="medium">Среден</option>
+            <option value="luxury">Лукс</option>
+        </select>
+        
+        <button id="whatsappBtn">Изпрати по WhatsApp</button>
+        <button id="emailBtn" class="secondary">Изпрати по имейл</button>
+        
+        <div class="privacy-note">🔒 Данните се използват само за това запитване.</div>
+        
+        <!-- PRICING SECTION -->
+        <section class="pricing">
+            <h2>Цени</h2>
+            
+            <div class="price-box">
+                <h3>20 лв.</h3>
+                <p><strong>1 индивидуална оферта (PDF)</strong></p>
+                <ul>
+                    <li>ден по ден</li>
+                    <li>полетни часове и номера</li>
+                    <li>хотел и бюджет</li>
+                </ul>
+                <small>1 PDF = 1 оферта · без линкове</small>
+            </div>
+            
+            <div class="price-box">
+                <h3>60 лв.</h3>
+                <p><strong>До 5 оферти (PDF)</strong></p>
+                <ul>
+                    <li>алтернативни дати</li>
+                    <li>различни бюджети</li>
+                </ul>
+                <small>Всяка промяна = нов PDF</small>
+            </div>
+            
+            <div class="price-box">
+                <h3>100 лв.</h3>
+                <p><strong>24h приоритет</strong></p>
+                <ul>
+                    <li>неограничени оферти</li>
+                    <li>съдействие при резервации</li>
+                </ul>
+            </div>
+        </section>
+        
+        <div class="footer">AYA · Private Travel Design</div>
+    </div>
 
-<div class="wrap">
-
-<h1>AYA Hub</h1>
-<div class="subtitle">Private AI Travel Design</div>
-
-<label>Дестинация</label>
-<input placeholder="Maldives, Dubai, Paris…" />
-
-<label>Дати</label>
-<input placeholder="напр. 10 – 15 март" />
-
-<label>Брой пътуващи</label>
-<input type="number" />
-
-<label>Бюджет</label>
-<select>
-  <option>Избери бюджет</option>
-  <option>Нормален</option>
-  <option>Среден</option>
-  <option>Лукс</option>
-</select>
-
-<button>Изпрати заявка</button>
-<button class="secondary">Изпрати по имейл</button>
-
-<div class="privacy-note">🔒 Данните се използват само за това запитване.</div>
-
-<!-- PRICING -->
-<section class="pricing">
-<h2>Цени</h2>
-
-<div class="price-box">
-<h3>20 лв.</h3>
-<p><strong>1 индивидуална оферта (PDF)</strong></p>
-<ul>
-<li>ден по ден</li>
-<li>полетни часове и номера</li>
-<li>хотел и бюджет</li>
-</ul>
-<small>1 PDF = 1 оферта · без линкове</small>
-</div>
-
-<div class="price-box">
-<h3>60 лв.</h3>
-<p><strong>До 5 оферти (PDF)</strong></p>
-<ul>
-<li>алтернативни дати</li>
-<li>различни бюджети</li>
-</ul>
-<small>Всяка промяна = нов PDF</small>
-</div>
-
-<div class="price-box">
-<h3>100 лв.</h3>
-<p><strong>24h приоритет</strong></p>
-<ul>
-<li>неограничени оферти</li>
-<li>съдействие при резервации</li>
-</ul>
-</div>
-
-</section>
-
-<div class="footer">AYA · Private Travel Design</div>
-</div>
-</body>
-</html>  background-size:cover;
-  background-repeat:no-repeat;
-  opacity:.55;
-  pointer-events:none;
-  z-index:-1;
-}
-
-/* --- LAYOUT --- */
-.wrap{
-  max-width:420px;
-  margin:6vh auto;
-  padding:32px 26px;
-  border-radius:22px;
-
-  /* ✅ ИСТИНСКА ПРОЗРАЧНОСТ */
-  background: transparent;
-  backdrop-filter: none;
-
-  /* ✅ само контур + дълбочина */
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.02),
-    0 30px 120px rgba(0,0,0,.6);
-
-  transition: box-shadow .35s ease;
-}
-
-
-/* --- TITLE --- */
-h1{
-  margin:0 0 6px;
-  font-size:28px;
-  font-weight:600;
-}
-
-.subtitle{
-  opacity:.75;
-  margin-bottom:26px;
-}
-
-/* --- FORM --- */
-label{
-  font-size:13px;
-  opacity:.75;
-}
-
-input, select{
-  width:100%;
-  background: transparent;
-  border: none;
-  border-bottom:1px solid rgba(255,255,255,.25);
-  padding:10px 4px;
-  margin:6px 0 20px;
-  color:var(--text-main);
-  font-size:15px;
-}
-
-select option{
-  color:#000;
-}
-
-/* БЮДЖЕТ = СЪЩИЯ СТИЛ */
-select{
-  font-size:15px;
-  color:var(--text-main);
-}
-
-/* --- BUDGET GLOW --- */
-.wrap[data-budget="normal"]{
-  box-shadow:0 0 0 1px rgba(120,200,255,.35), 0 30px 100px rgba(0,0,0,.6);
-}
-
-.wrap[data-budget="medium"]{
-  box-shadow:0 0 0 1px rgba(80,220,200,.45), 0 30px 100px rgba(0,0,0,.6);
-}
-
-.wrap[data-budget="luxury"]{
-  box-shadow:0 0 0 1px rgba(255,215,120,.55), 0 30px 120px rgba(0,0,0,.7);
-}
-
-/* --- BUTTONS --- */
-button{
-  width:100%;
-  border:none;
-  border-radius:999px;
-  padding:14px;
-  margin-top:12px;
-  font-size:15px;
-  font-weight:500;
-  cursor:pointer;
-  background: linear-gradient(90deg, #2fe3c8, #38bdf8);
-  color:#001;
-  transition:.25s ease;
-}
-
-button:hover{
-  transform: translateY(-1px);
-  box-shadow:0 10px 30px rgba(56,189,248,.35);
-}
-
-button.secondary{
-  background: linear-gradient(90deg, #33e6c2, #3bd4ff);
-  margin-top:10px;
-}
-
-button.ready{
-  transform:scale(1.02);
-  box-shadow:0 12px 40px rgba(80,220,200,.4);
-}
-
-/* --- TRUST LINE --- */
-.privacy-note{
-  font-size:12px;
-  opacity:.6;
-  text-align:center;
-  margin-top:14px;
-}
-
-/* --- FOOTER --- */
-.footer{
-  text-align:center;
-  font-size:12px;
-  opacity:.55;
-  margin-top:14px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrap form-wrap">
-
-  <h1>AYA Hub</h1>
-  <div class="subtitle">Дискретен AI travel • tailor-made</div>
-
-  <label for="dest">Дестинация</label>
-  <input id="dest" type="text" placeholder="Paros, Maldives, Dubai…" />
-
-  <label for="dates">Дати</label>
-  <input id="dates" type="text" placeholder="напр. 5 – 10 март" />
-
-  <label for="people">Брой пътуващи</label>
-  <input id="people" type="number" min="1" placeholder="напр. 2" />
-
-  <label for="budget">Бюджет</label>
-  <select id="budget" name="budget">
-    <option value="">Избери бюджет</option>
-    <option value="normal">Нормален</option>
-    <option value="medium">Среден</option>
-    <option value="luxury">Лукс</option>
-  </select>
-
-  <button id="sendBtn">Изпрати по WhatsApp</button>
-  <button id="emailBtn" class="secondary">Изпрати по имейл</button>
-
-  <div class="privacy-note">🔒 Данните се използват само за това запитване.</div>
-  <div class="footer">AYA • Private AI Travel Design</div>
-
-</div>
-
-<script>
-const wrap   = document.querySelector(".form-wrap");
-const budget = document.getElementById("budget");
-const inputs = document.querySelectorAll("#dest, #dates, #people, #budget");
-const sendBtn  = document.getElementById("sendBtn");
-const emailBtn = document.getElementById("emailBtn");
-
-/* БЮДЖЕТ → СВЕТВАНЕ */
-budget.addEventListener("change", e=>{
-  wrap.dataset.budget = e.target.value;
-});
-
-/* ГОТОВО ЗА ИЗПРАЩАНЕ */
-function updateReadyState(){
-  const allFilled = [...inputs].every(el => el.value && el.value.trim() !== "");
-  if(allFilled){
-    sendBtn.classList.add("ready");
-    emailBtn.classList.add("ready");
-  }else{
-    sendBtn.classList.remove("ready");
-    emailBtn.classList.remove("ready");
-  }
-}
-
-inputs.forEach(i=>{
-  i.addEventListener("input", updateReadyState);
-  i.addEventListener("change", updateReadyState);
-});
-
-/* СЪОБЩЕНИЕТО, КОЕТО ЩЕ ПОЛЗВАМЕ ЗА WHATSAPP / EMAIL */
-function buildMessage(){
-  const dest   = document.getElementById("dest").value.trim();
-  const dates  = document.getElementById("dates").value.trim();
-  const people = document.getElementById("people").value.trim();
-  const budVal = budget.value;
-  const budgetTextMap = {
-    normal: "Нормален",
-    medium: "Среден",
-    luxury: "Лукс"
-  };
-  const budgetText = budgetTextMap[budVal] || budVal || "неуточнен";
-
-  return `Заявка от AYA Hub:
+    <script>
+        // DOM Elements
+        const formWrap = document.getElementById('formWrap');
+        const budgetSelect = document.getElementById('budget');
+        const inputs = document.querySelectorAll('#dest, #dates, #people, #budget');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const emailBtn = document.getElementById('emailBtn');
+        
+        // Budget glow effect
+        budgetSelect.addEventListener('change', (e) => {
+            formWrap.dataset.budget = e.target.value;
+        });
+        
+        // Ready state for buttons
+        function updateReadyState() {
+            const allFilled = Array.from(inputs).every(input => 
+                input.value && input.value.trim() !== ''
+            );
+            
+            if (allFilled) {
+                whatsappBtn.classList.add('ready');
+                emailBtn.classList.add('ready');
+            } else {
+                whatsappBtn.classList.remove('ready');
+                emailBtn.classList.remove('ready');
+            }
+        }
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', updateReadyState);
+            input.addEventListener('change', updateReadyState);
+        });
+        
+        // Build message
+        function buildMessage() {
+            const dest = document.getElementById('dest').value.trim();
+            const dates = document.getElementById('dates').value.trim();
+            const people = document.getElementById('people').value.trim();
+            const budgetValue = budgetSelect.value;
+            
+            const budgetMap = {
+                normal: 'Нормален',
+                medium: 'Среден', 
+                luxury: 'Лукс'
+            };
+            
+            const budgetText = budgetMap[budgetValue] || budgetValue || 'неуточнен';
+            
+            return `Заявка от AYA Hub:
 
 Дестинация: ${dest}
 Дати: ${dates}
 Брой пътуващи: ${people}
 Бюджет: ${budgetText}`;
-}
-
-function validateForm(){
-  const allFilled = [...inputs].every(el => el.value && el.value.trim() !== "");
-  if(!allFilled){
-    alert("Моля, попълнете всички полета преди да изпратите заявката.");
-    return false;
-  }
-  return true;
-}
-
-/* WHATSAPP */
-sendBtn.addEventListener("click", ()=>{
-  if(!validateForm()) return;
-
-  const msg   = buildMessage();
-  const phone = "359894842882"; // твоят WhatsApp номер, без +
-  const url   = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-
-  window.open(url, "_blank");
-});
-
-/* EMAIL */
-emailBtn.addEventListener("click", ()=>{
-  if(!validateForm()) return;
-
-  const msg     = buildMessage();
-  const mailTo  = "aya.smart.store@gmail.com";
-  const subject = "Запитване за пътуване от AYA Hub";
-  const url     = `mailto:${mailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
-
-  window.location.href = url;
-});
-</script>
-
-<script>
-const dest   = document.getElementById('dest');
-const dates  = document.getElementById('dates');
-const people = document.getElementById('people');
-const budget = document.getElementById('budget');
-const sendBtn  = document.getElementById('sendBtn');
-const emailBtn = document.getElementById('emailBtn');
-
-function buildMessage(){
-  const map = {
-    normal: "Нормален",
-    medium: "Среден",
-    luxury: "Лукс"
-  };
-
-  const b = map[budget.value] || budget.value || "неуточнен";
-
-  return `Запитване от AYA Hub:
-
-Дестинация: ${dest.value}
-Дати: ${dates.value}
-Брой пътуващи: ${people.value}
-Бюджет: ${b}
-`;
-}
-
-function allFilled(){
-  return dest.value && dates.value && people.value && budget.value;
-}
-
-sendBtn.addEventListener('click', () => {
-  if(!allFilled()){
-    alert("Моля, попълнете всички полета.");
-    return;
-  }
-  const msg = buildMessage();
-  const phone = "359894842882"; // твоя номер
-  window.open(
-    `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,
-    "_blank"
-  );
-});
-
-emailBtn.addEventListener('click', () => {
-  if(!allFilled()){
-    alert("Моля, попълнете всички полета.");
-    return;
-  }
-  const msg = buildMessage();
-  const mail = "aya.smart.store@gmail.com";
-  window.location.href =
-    `mailto:${mail}?subject=Запитване от AYA Hub&body=${encodeURIComponent(msg)}`;
-});
-</script>
+        }
+        
+        // Validate form
+        function validateForm() {
+            const allFilled = Array.from(inputs).every(input => 
+                input.value && input.value.trim() !== ''
+            );
+            
+            if (!allFilled) {
+                alert('Моля, попълнете всички полета преди изпращане.');
+                return false;
+            }
+            return true;
+        }
+        
+        // WhatsApp button
+        whatsappBtn.addEventListener('click', () => {
+            if (!validateForm()) return;
+            
+            const message = buildMessage();
+            const phone = '359894842882'; // Your WhatsApp number
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+        });
+        
+        // Email button  
+        emailBtn.addEventListener('click', () => {
+            if (!validateForm()) return;
+            
+            const message = buildMessage();
+            const email = 'aya.smart.store@gmail.com';
+            const subject = 'Запитване за пътуване от AYA Hub';
+            const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            
+            window.location.href = url;
+        });
+    </script>
 </body>
 </html>
