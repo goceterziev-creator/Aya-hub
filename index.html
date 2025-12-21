@@ -1,927 +1,131 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AYA Hub - Travel Assistant</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            color: #2d3436;
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            color: #636e72;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            background: #00b894;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        .status-badge.github {
-            background: #6f42c1;
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-        
-        .card h2 {
-            color: #2d3436;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f2f6;
-        }
-        
-        .endpoint-list {
-            list-style: none;
-        }
-        
-        .endpoint-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f2f6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .method {
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
-        .path {
-            font-family: monospace;
-            background: #f8f9fa;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-        
-        .desc {
-            color: #636e72;
-            font-size: 0.95em;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-box {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .stat-label {
-            color: #636e72;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        
-        /* Тестов панел стилове */
-        #test-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            z-index: 1000;
-            overflow: hidden;
-            display: none;
-        }
-        
-        .panel-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .panel-header h3 {
-            margin: 0;
-            font-size: 1.3em;
-        }
-        
-        .close-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .panel-body {
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3436;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e6ed;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn-test {
-            background: #00b894;
-        }
-        
-        .btn-demo {
-            background: #6f42c1;
-        }
-        
-        .test-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #test-results {
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .result-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .result-item.demo {
-            border-left-color: #6f42c1;
-        }
-        
-        .success {
-            color: #00b894;
-            font-weight: bold;
-        }
-        
-        .demo-badge {
-            color: #6f42c1;
-            font-weight: bold;
-        }
-        
-        .error {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #636e72;
-        }
-        
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s infinite;
-        }
-        
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #636e72;
-            font-size: 0.9em;
-            margin-top: 40px;
-        }
-        
-        .version-info {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            font-size: 0.9em;
-        }
-        
-        .demo-notice {
-            background: #f1e5ff;
-            border-left: 4px solid #6f42c1;
-            padding: 10px 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-            
-            #test-panel {
-                width: calc(100% - 40px);
-                right: 20px;
-                left: 20px;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AYA Family Travel Blueprint</title>
+
+<style>
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu}
+body{margin:0;background:#f6f7fb;color:#111}
+.container{max-width:720px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+h1{margin:0 0 10px;font-size:28px}
+p{line-height:1.5;color:#444}
+.badge{display:inline-block;background:#0ea5e9;color:#fff;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:12px}
+.price{font-size:32px;font-weight:700;margin:16px 0}
+hr{border:none;border-top:1px solid #eee;margin:20px 0}
+
+label{display:block;margin-top:16px;font-weight:600}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-top:6px;font-size:16px}
+
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.checks label{font-weight:400}
+
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-size:18px;font-weight:700;cursor:pointer}
+.pay{background:#16a34a;color:#fff;margin-top:20px}
+.wa{background:#25D366;color:#fff;margin-top:12px}
+
+.small{font-size:14px;color:#666;margin-top:10px;text-align:center}
+
+footer{margin-top:30px;text-align:center;font-size:13px;color:#777}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>AYA Hub Backend</h1>
-            <p class="subtitle">Интелигентен асистент за пътувания - v2.0</p>
-            <div class="status-badge" id="status-indicator">● Активен</div>
-            <div class="version-info" id="version-info">
-                <!-- Тук ще се покаже версията -->
-            </div>
-        </header>
-        
-        <div class="content">
-            <div class="card">
-                <h2>📊 Информация за системата</h2>
-                <div id="demo-notice" style="display: none;">
-                    <div class="demo-notice">
-                        <strong>🌐 Демо версия (GitHub Pages)</strong>
-                        <p>Това е демонстрационна версия със симулирани данни. За пълна функционалност стартирайте проекта локално.</p>
-                    </div>
-                </div>
-                <p id="system-description">Сървърът е онлайн и готов за обработка на заявки. Всички системи работят нормално.</p>
-                
-                <div class="stats">
-                    <div class="stat-box">
-                        <div class="stat-value" id="uptime">20:25:14</div>
-                        <div class="stat-label">Активно време</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="requests">0</div>
-                        <div class="stat-label">Заявки днес</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="version">2.0</div>
-                        <div class="stat-label">Версия</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h2>🔌 Доступни Endpoints</h2>
-                <ul class="endpoint-list">
-                    <li>
-                        <span class="method">GET</span>
-                        <span class="path">/</span>
-                        <span class="desc">Основна информация за API</span>
-                    </li>
-                    <li>
-                        <span class="method">GET</span>
-                        <span class="path">/health</span>
-                        <span class="desc">Проверка на състоянието</span>
-                    </li>
-                    <li>
-                        <span class="method">POST</span>
-                        <span class="path">/api/travel</span>
-                        <span class="desc">Търсене на пътувания (основно)</span>
-                    </li>
-                </ul>
-                
-                <div style="margin-top: 20px; padding: 15px; background: #f1f8ff; border-radius: 8px;">
-                    <p style="color: #0366d6; margin: 0;">
-                        <strong>💡 Текущ хост:</strong> <span id="current-host">localhost:3000</span><br>
-                        <strong>📡 GitHub версия:</strong> <a href="https://goceterziev-creator.github.io/aya-hub/" target="_blank">goceterziev-creator.github.io/aya-hub/</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>AYA Hub Backend System © 2024. Всички права запазени.</p>
-            <p style="font-size: 0.8em; margin-top: 5px;">Системен статус: <span id="live-status" style="color: #00b894;">● Онлайн</span></p>
-            <p style="font-size: 0.8em; margin-top: 5px;" id="host-info">
-                <!-- Тук ще се покаже информация за хоста -->
-            </p>
-        </footer>
-    </div>
+<div class="container">
 
-    <!-- Тестова система -->
-    <button class="test-btn" id="open-test-panel">🧪</button>
-    
-    <div id="test-panel">
-        <div class="panel-header">
-            <h3>🧪 AYA Hub Тестова система</h3>
-            <button class="close-btn" id="close-test-panel">×</button>
-        </div>
-        
-        <div class="panel-body">
-            <div id="test-mode-info" style="margin-bottom: 15px; display: none;">
-                <div class="demo-notice">
-                    <strong>🔧 Режим:</strong> <span id="mode-text">Локален сървър</span>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="test-destination">📍 Дестинация:</label>
-                <input type="text" id="test-destination" class="form-control" value="Дубай" placeholder="Въведете дестинация">
-            </div>
-            
-            <div class="form-group">
-                <label for="test-dates">📅 Дати:</label>
-                <input type="text" id="test-dates" class="form-control" value="15-22 декември 2024" placeholder="Период на пътуване">
-            </div>
-            
-            <div class="form-group">
-                <label for="test-people">👥 Брой хора:</label>
-                <input type="number" id="test-people" class="form-control" value="2" min="1" max="10">
-            </div>
-            
-            <div class="form-group">
-                <label for="test-budget">💰 Бюджет:</label>
-                <select id="test-budget" class="form-control">
-                    <option value="икономичен">Икономичен</option>
-                    <option value="стандартен">Стандартен</option>
-                    <option value="лукс" selected>Лукс</option>
-                    <option value="премиум">Премиум</option>
-                </select>
-            </div>
-            
-            <button class="btn btn-test" id="run-test-btn">🚀 Стартирай тест</button>
-            <button class="btn btn-demo" id="run-demo-btn" style="margin-top: 10px; display: none;">🎭 Стартирай демо тест</button>
-            
-            <div id="test-results">
-                <!-- Тук ще се показват резултатите -->
-            </div>
-        </div>
-    </div>
+<div class="card">
+<span class="badge">AYA · Family Edition</span>
 
-    <script>
-        // Проверка на хоста
-        const isLocalhost = window.location.hostname === 'localhost' || 
-                           window.location.hostname === '127.0.0.1';
-        const isGitHubPages = window.location.hostname.includes('github.io');
-        
-        // Елементи за управление
-        const testPanel = document.getElementById('test-panel');
-        const openTestBtn = document.getElementById('open-test-panel');
-        const closeTestBtn = document.getElementById('close-test-panel');
-        const runTestBtn = document.getElementById('run-test-btn');
-        const runDemoBtn = document.getElementById('run-demo-btn');
-        const testResults = document.getElementById('test-results');
-        const testModeInfo = document.getElementById('test-mode-info');
-        const modeText = document.getElementById('mode-text');
-        const demoNotice = document.getElementById('demo-notice');
-        const systemDescription = document.getElementById('system-description');
-        const currentHost = document.getElementById('current-host');
-        const versionInfo = document.getElementById('version-info');
-        const hostInfo = document.getElementById('host-info');
-        const statusIndicator = document.getElementById('status-indicator');
-        
-        // Инициализация на интерфейса според хоста
-        function initializeUI() {
-            if (isGitHubPages) {
-                // GitHub Pages режим
-                document.title = "AYA Hub - Demo Version";
-                statusIndicator.textContent = "● GitHub Pages Demo";
-                statusIndicator.className = "status-badge github";
-                systemDescription.textContent = "Демо версия на AYA Hub със симулирани данни. Перфектна за тестване на интерфейса.";
-                currentHost.textContent = "GitHub Pages";
-                modeText.textContent = "Демо (симулирани данни)";
-                testModeInfo.style.display = 'block';
-                runDemoBtn.style.display = 'block';
-                demoNotice.style.display = 'block';
-                
-                versionInfo.innerHTML = `
-                    <strong>🌐 Версия:</strong> GitHub Pages Demo<br>
-                    <strong>🔗 Локална версия:</strong> <a href="http://localhost:3000">http://localhost:3000</a>
-                `;
-                
-                hostInfo.innerHTML = `
-                    Хостнато в GitHub Pages | 
-                    <a href="https://github.com/goceterziev-creator/aya-hub" target="_blank">Вижте кода в GitHub</a>
-                `;
-                
-            } else if (isLocalhost) {
-                // Локален режим
-                currentHost.textContent = "localhost:3000";
-                modeText.textContent = "Локален сървър (реални данни)";
-                testModeInfo.style.display = 'block';
-                
-                versionInfo.innerHTML = `
-                    <strong>💻 Версия:</strong> Локален сървър<br>
-                    <strong>🌐 Публична версия:</strong> <a href="https://goceterziev-creator.github.io/aya-hub/" target="_blank">GitHub Pages</a>
-                `;
-                
-                hostInfo.innerHTML = `
-                    Локален сървър | Порт: 3000
-                `;
-            }
-        }
-        
-        // Отваряне на тестовия панел
-        openTestBtn.addEventListener('click', () => {
-            testPanel.style.display = 'block';
-            openTestBtn.style.display = 'none';
-        });
-        
-        // Затваряне на тестовия панел
-        closeTestBtn.addEventListener('click', () => {
-            testPanel.style.display = 'none';
-            openTestBtn.style.display = 'flex';
-        });
-        
-        // РЕАЛНА тестова функция за localhost
-        async function testRealBackend(destination, dates, people, budget) {
-            console.log('🧪 Стартирам РЕАЛЕН тест на AYA Hub Backend...');
-            
-            try {
-                // 1. Тест на основния endpoint
-                console.log('1️⃣ Тествам основен endpoint...');
-                const homeResponse = await fetch('http://localhost:3000');
-                const homeData = await homeResponse.json();
-                console.log('✅ Основен endpoint:', homeData.status);
-                
-                // 2. Тест на health check
-                console.log('2️⃣ Тествам health check...');
-                const healthResponse = await fetch('http://localhost:3000/health');
-                const healthData = await healthResponse.json();
-                console.log('✅ Health check:', healthData.status);
-                
-                // 3. Тест на travel търсене
-                console.log('3️⃣ Тествам travel търсене...');
-                const travelResponse = await fetch('http://localhost:3000/api/travel', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        destination: destination,
-                        dates: dates,
-                        people: parseInt(people),
-                        budget: budget
-                    })
-                });
-                
-                const travelData = await travelResponse.json();
-                
-                console.log('='.repeat(50));
-                console.log('🎉 РЕАЛНИ РЕЗУЛТАТИ:');
-                console.log('='.repeat(50));
-                console.log('✅ Статус:', travelData.success ? 'УСПЕШНО' : 'ГРЕШКА');
-                console.log('📨 Съобщение:', travelData.message);
-                console.log('🔗 API Статус:', travelData.apiStatus);
-                console.log('🆔 ID на заявка:', travelData.requestId);
-                
-                // Проверка за оферти
-                const offers = travelData.offers || travelData.searchDetails?.offers || [];
-                console.log('💰 Намерени оферти:', offers.length);
-                
-                return {
-                    success: true,
-                    data: travelData,
-                    offers: offers,
-                    isReal: true
-                };
-                
-            } catch (error) {
-                console.error('❌ РЕАЛНИЯТ ТЕСТ СЕ ПРОВАЛИ:', error);
-                return {
-                    success: false,
-                    error: error.message,
-                    isReal: true
-                };
-            }
-        }
-        
-        // ДЕМО тестова функция за GitHub Pages
-        async function testDemoBackend(destination, dates, people, budget) {
-            console.log('🎭 Стартирам ДЕМО тест на AYA Hub...');
-            
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const mockData = {
-                        success: true,
-                        message: "Заявката е обработена успешно! (Демо версия)",
-                        apiStatus: "Използва се интелигентна симулация",
-                        requestId: "DEMO-" + Date.now(),
-                        offers: [
-                            { 
-                                description: "Луксозен хотел в " + destination + " - All Inclusive", 
-                                price: "1450",
-                                details: "5-звезден хотел с безплатен трансфер"
-                            },
-                            { 
-                                description: "VIP пакет " + destination + " с екскурзии", 
-                                price: "1890",
-                                details: "Включва 3 екскурзии и VIP обслужване"
-                            },
-                            { 
-                                description: "Икономичен вариант в " + destination, 
-                                price: "890",
-                                details: "3-звезден хотел с закуска"
-                            }
-                        ],
-                        summary: { 
-                            priceRange: "890-1890 лв.",
-                            bestOffer: "Луксозен хотел в " + destination,
-                            recommendation: "Препоръчваме лукс варианта за най-добро изживяване"
-                        }
-                    };
-                    
-                    console.log('🎭 ДЕМО РЕЗУЛТАТИ:');
-                    console.log('📦 Оферти:', mockData.offers.length);
-                    console.log('💰 Диапазон:', mockData.summary.priceRange);
-                    
-                    resolve({
-                        success: true,
-                        data: mockData,
-                        offers: mockData.offers,
-                        isReal: false
-                    });
-                }, 1500); // Симулиране на забавяне
-            });
-        }
-        
-        // Генериране на WhatsApp линк
-        function generateWhatsAppLink(result, destination, dates, people, budget) {
-            const travelData = result.data;
-            const offers = result.offers || [];
-            
-            let whatsappMessage = `Нова заявка от AYA Hub v2.0!\n\n`;
-            
-            if (result.isReal) {
-                whatsappMessage += `🔧 РЕАЛНА заявка от локален сървър\n`;
-            } else {
-                whatsappMessage += `🎭 ДЕМО заявка от GitHub Pages\n`;
-            }
-            
-            whatsappMessage += `\n📍 Дестинация: ${destination}\n`;
-            whatsappMessage += `📅 Дата: ${dates}\n`;
-            whatsappMessage += `👥 Хора: ${people}\n`;
-            whatsappMessage += `💰 Бюджет: ${budget}\n\n`;
-            whatsappMessage += `📊 Анализ: ${travelData.apiStatus}\n`;
-            whatsappMessage += `✅ Съобщение: ${travelData.message}\n`;
-            whatsappMessage += `💰 Оферти: ${offers.length}\n`;
-            
-            if (travelData.summary?.priceRange) {
-                whatsappMessage += `💸 Ценов диапазон: ${travelData.summary.priceRange}\n`;
-            }
-            
-            whatsappMessage += `🆔 ID: ${travelData.requestId}\n\n`;
-            
-            if (offers.length > 0) {
-                whatsappMessage += `📋 Топ оферти:\n`;
-                offers.slice(0, 3).forEach((offer, index) => {
-                    whatsappMessage += `${index + 1}. ${offer.description} - ${offer.price} лв.\n`;
-                });
-            }
-            
-            const phone = '359894842882';
-            const encodedMessage = encodeURIComponent(whatsappMessage);
-            return `https://wa.me/${phone}?text=${encodedMessage}`;
-        }
-        
-        // Функция за показване на резултатите
-        function displayTestResults(result, destination, dates, people, budget) {
-            testResults.style.display = 'block';
-            
-            if (result.success) {
-                const travelData = result.data;
-                const offers = result.offers || [];
-                const isReal = result.isReal;
-                
-                // Генериране на WhatsApp линк
-                const whatsappUrl = generateWhatsAppLink(result, destination, dates, people, budget);
-                
-                let offersHTML = '';
-                if (offers.length > 0) {
-                    offersHTML = '<h4>📋 Намерени оферти:</h4>';
-                    offers.forEach((offer, index) => {
-                        offersHTML += `
-                            <div class="result-item ${isReal ? '' : 'demo'}">
-                                <strong>${index + 1}. ${offer.description}</strong><br>
-                                <span style="color: #00b894; font-weight: bold;">${offer.price} лв.</span>
-                                ${offer.details ? `<br><small>${offer.details}</small>` : ''}
-                            </div>
-                        `;
-                    });
-                } else {
-                    offersHTML = '<p style="color: #636e72;">ℹ️ Няма детайлни оферти в отговора</p>';
-                }
-                
-                let resultHeader = '';
-                if (isReal) {
-                    resultHeader = '<span class="success">✅ РЕАЛЕН ТЕСТ ПРЕМИНА УСПЕШНО!</span>';
-                } else {
-                    resultHeader = '<span class="demo-badge">🎭 ДЕМО ТЕСТ ПРЕМИНА УСПЕШНО!</span>';
-                }
-                
-                let summaryHTML = '';
-                if (travelData.summary) {
-                    summaryHTML = `
-                        <div class="result-item ${isReal ? '' : 'demo'}">
-                            <h4>📊 Резюме:</h4>
-                            <p><strong>Ценов диапазон:</strong> ${travelData.summary.priceRange}</p>
-                            ${travelData.summary.recommendation ? 
-                              `<p><strong>Препоръка:</strong> ${travelData.summary.recommendation}</p>` : ''}
-                        </div>
-                    `;
-                }
-                
-                testResults.innerHTML = `
-                    <div class="result-item ${isReal ? '' : 'demo'}">
-                        ${resultHeader}
-                        <p><strong>Съобщение:</strong> ${travelData.message}</p>
-                        <p><strong>Статус:</strong> ${travelData.apiStatus}</p>
-                        <p><strong>Оферти:</strong> ${offers.length}</p>
-                        <p><strong>ID на заявка:</strong> ${travelData.requestId}</p>
-                        <p><strong>Режим:</strong> ${isReal ? '🏠 Локален сървър' : '🌐 GitHub Pages Demo'}</p>
-                    </div>
-                    ${summaryHTML}
-                    ${offersHTML}
-                    <div class="result-item ${isReal ? '' : 'demo'}">
-                        <h4>📱 WhatsApp линк:</h4>
-                        <p style="word-break: break-all; font-size: 0.9em;">
-                            <a href="${whatsappUrl}" target="_blank">${whatsappUrl}</a>
-                        </p>
-                        <button onclick="window.open('${whatsappUrl}', '_blank')" style="
-                            background: ${isReal ? '#25D366' : '#6f42c1'};
-                            color: white;
-                            border: none;
-                            padding: 10px 15px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            margin-top: 10px;
-                            width: 100%;
-                        ">
-                            📲 ${isReal ? 'Изпрати реална заявка' : 'Изпрати демо заявка'}
-                        </button>
-                    </div>
-                `;
-                
-                // Обновяване на статистиката
-                if (isReal) {
-                    document.getElementById('requests').textContent = 
-                        parseInt(document.getElementById('requests').textContent) + 1;
-                }
-                    
-            } else {
-                testResults.innerHTML = `
-                    <div class="result-item">
-                        <span class="error">❌ ТЕСТЪТ СЕ ПРОВАЛИ</span>
-                        <p><strong>Грешка:</strong> ${result.error}</p>
-                        ${isLocalhost ? `
-                            <p>Моля, проверете дали:</p>
-                            <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li>Сървърът работи на порт 3000</li>
-                                <li>Всички endpoints са достъпни</li>
-                            </ul>
-                        ` : ''}
-                    </div>
-                `;
-            }
-            
-            // Скролване до резултатите
-            testResults.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Слушател за РЕАЛНИЯ бутон за тест
-        runTestBtn.addEventListener('click', async () => {
-            // Вземане на стойностите от формата
-            const destination = document.getElementById('test-destination').value;
-            const dates = document.getElementById('test-dates').value;
-            const people = document.getElementById('test-people').value;
-            const budget = document.getElementById('test-budget').value;
-            
-            // Показване на състояние на зареждане
-            testResults.innerHTML = '<div class="loading">Тествам системата</div>';
-            testResults.style.display = 'block';
-            runTestBtn.disabled = true;
-            runTestBtn.textContent = '⏳ Тествам...';
-            
-            let result;
-            if (isLocalhost) {
-                // Локален тест
-                result = await testRealBackend(destination, dates, people, budget);
-            } else {
-                // GitHub Pages демо тест
-                result = await testDemoBackend(destination, dates, people, budget);
-            }
-            
-            // Показване на резултатите
-            displayTestResults(result, destination, dates, people, budget);
-            
-            // Връщане на бутона в нормално състояние
-            runTestBtn.disabled = false;
-            runTestBtn.textContent = '🚀 Стартирай тест';
-        });
-        
-        // Слушател за ДЕМО бутона (само за GitHub Pages)
-        runDemoBtn.addEventListener('click', async () => {
-            const destination = document.getElementById('test-destination').value;
-            const dates = document.getElementById('test-dates').value;
-            const people = document.getElementById('test-people').value;
-            const budget = document.getElementById('test-budget').value;
-            
-            testResults.innerHTML = '<div class="loading">Стартирам демо тест...</div>';
-            testResults.style.display = 'block';
-            runDemoBtn.disabled = true;
-            runDemoBtn.textContent = '🎭 Демо тест...';
-            
-            const result = await testDemoBackend(destination, dates, people, budget);
-            displayTestResults(result, destination, dates, people, budget);
-            
-            runDemoBtn.disabled = false;
-            runDemoBtn.textContent = '🎭 Стартирай демо тест';
-        });
-        
-        // Симулиране на живо обновяване на времето
-        function updateUptime() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('uptime').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        
-        // Проверка на статуса на сървъра (само за localhost)
-        function checkServerStatus() {
-            if (!isLocalhost) return;
-            
-            fetch('http://localhost:3000')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('live-status').textContent = `● ${data.status}`;
-                    document.getElementById('live-status').style.color = '#00b894';
-                    statusIndicator.textContent = data.status;
-                    document.getElementById('version').textContent = data.version;
-                })
-                .catch(() => {
-                    document.getElementById('live-status').textContent = '● Офлайн';
-                    document.getElementById('live-status').style.color = '#e74c3c';
-                });
-        }
-        
-        // Функция за автоматично генериране на дати
-        function generateDefaultDates() {
-            const today = new Date();
-            const nextWeek = new Date(today);
-            nextWeek.setDate(today.getDate() + 7);
-            
-            const formatDate = (date) => {
-                const day = date.getDate();
-                const month = date.toLocaleString('bg-BG', { month: 'long' });
-                const year = date.getFullYear();
-                return `${day} ${month} ${year}`;
-            };
-            
-            const startDate = formatDate(today);
-            const endDate = formatDate(nextWeek);
-            
-            // Задаване на стойността, ако не е ръчно променена
-            const dateField = document.getElementById('test-dates');
-            if (dateField.value === '15-22 декември 2024' || dateField.value === '10-17 април 2024') {
-                dateField.value = `${startDate} - ${endDate}`;
-            }
-        }
-        
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            // Инициализиране на UI според хоста
-            initializeUI();
-            
-            // Стартиране на системите
-            updateUptime();
-            setInterval(updateUptime, 1000);
-            
-            // Проверка на сървъра (само за localhost)
-            if (isLocalhost) {
-                checkServerStatus();
-                setInterval(checkServerStatus, 30000);
-            } else {
-                // GitHub Pages - статичен статус
-                document.getElementById('live-status').textContent = '● GitHub Pages Online';
-                document.getElementById('live-status').style.color = '#6f42c1';
-            }
-            
-            // Генериране на актуални дати
-            generateDefaultDates();
-        });
-    </script>
+<h1>Family Travel Blueprint</h1>
+<p>
+Персонален семеен travel план за <b>24 часа</b>.<br>
+Съобразен с деца, темпо и реален бюджет.<br>
+<b>Без агенции. Без резервации. Само ясно решение.</b>
+</p>
+
+<div class="price">39 €</div>
+
+<hr>
+
+<label>📍 Дестинация</label>
+<input id="dest" placeholder="напр. Италия, Испания, Гърция" />
+
+<label>📅 Период / нощи</label>
+<input id="dates" placeholder="напр. 6 нощи / април" />
+
+<label>👨‍👩‍👧‍👦 Възраст на децата</label>
+<div class="checks">
+<label><input type="checkbox" value="0–3 г." /> 0–3 г.</label>
+<label><input type="checkbox" value="4–7 г." /> 4–7 г.</label>
+<label><input type="checkbox" value="8–12 г." /> 8–12 г.</label>
+<label><input type="checkbox" value="13–17 г." /> 13–17 г.</label>
+</div>
+
+<label>🚶 Темпо на пътуване</label>
+<select id="pace">
+<option>Relaxed</option>
+<option selected>Balanced</option>
+<option>Active</option>
+</select>
+
+<label>🎯 Основен фокус (избери до 2)</label>
+<div class="checks">
+<label><input type="checkbox" value="плаж" /> плаж</label>
+<label><input type="checkbox" value="басейн" /> басейн</label>
+<label><input type="checkbox" value="разходки" /> разходки</label>
+<label><input type="checkbox" value="kid-friendly храна" /> kid-friendly храна</label>
+</div>
+
+<a class="btn pay" href="https://revolut.me/gt63" target="_blank">
+Pay 39 €
+</a>
+
+<button class="btn wa" onclick="sendWhatsApp()">
+Generate WhatsApp
+</button>
+
+<p class="small">
+След плащане → Generate WhatsApp → доставка до 24h
+</p>
+</div>
+
+<footer>
+AYA · Family Travel Blueprint · WhatsApp delivery
+</footer>
+
+</div>
+
+<script>
+function sendWhatsApp(){
+const dest=document.getElementById('dest').value;
+const dates=document.getElementById('dates').value;
+const pace=document.getElementById('pace').value;
+
+const kids=[...document.querySelectorAll('input[type=checkbox]:checked')]
+.filter(c=>c.value.includes('г.')).map(c=>c.value).join(', ') || '—';
+
+const focus=[...document.querySelectorAll('input[type=checkbox]:checked')]
+.filter(c=>!c.value.includes('г.')).map(c=>c.value).join(', ') || '—';
+
+const leadId=Date.now();
+
+const msg=
+`AYA, ACTIVATE — FAMILY\n\n`+
+`Lead ID: ${leadId}\n`+
+`Дестинация: ${dest}\n`+
+`Период: ${dates}\n`+
+`Деца: ${kids}\n`+
+`Темпо: ${pace}\n`+
+`Фокус: ${focus}`;
+
+window.open(
+`https://wa.me/?text=${encodeURIComponent(msg)}`,
+'_blank'
+);
+}
+</script>
+
 </body>
 </html>
