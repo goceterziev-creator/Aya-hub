@@ -1,217 +1,186 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AYA · Family Travel Blueprint</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AYA Travel Offer — Santorini 2026</title>
 
-<style>
-* {
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
-}
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    linear-gradient(
-      rgba(5,10,20,0.65),
-      rgba(5,10,20,0.65)
-    ),
-    url("img/aya-face-5050.png") center / cover no-repeat fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  color: #fff;
-}
+  <style>
+    :root {
+      --gold: #d4af37;
+      --dark: #0b0f1a;
+      --soft: #1a1f2e;
+      --text: #eaeaea;
+    }
 
-/* GLASS PANEL */
-.panel {
-  width: 100%;
-  max-width: 420px;
-  padding: 28px 26px;
-  border-radius: 22px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+    body {
+      background: linear-gradient(180deg, #0b0f1a 0%, #12172a 100%);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+    }
 
-  box-shadow:
-    0 25px 60px rgba(0,0,0,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.15);
-}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
 
-/* TEXT */
-.panel h1 {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
 
-.panel p.sub {
-  font-size: 14px;
-  opacity: 0.75;
-  margin-bottom: 18px;
-}
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
 
-/* FORM */
-label {
-  font-size: 13px;
-  opacity: 0.8;
-  display: block;
-  margin-top: 14px;
-}
+    header p {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      opacity: 0.85;
+    }
 
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
-}
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
 
-input::placeholder {
-  color: #999;
-}
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 18px;
+      padding: 30px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s ease;
+    }
 
-.checks {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-top: 8px;
-  font-size: 13px;
-}
+    .card:hover {
+      transform: translateY(-6px);
+    }
 
-.checks label {
-  opacity: 0.9;
-  margin: 0;
-}
+    .card h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+    }
 
-/* BUTTONS */
-.btn {
-  width: 100%;
-  border: none;
-  padding: 14px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 14px;
-}
+    .card p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
 
-.pay {
-  background: linear-gradient(90deg, #00c853, #00e676);
-  color: #003b1f;
-}
+    .card a {
+      display: inline-block;
+      padding: 12px 26px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
 
-.wa {
-  background: linear-gradient(90deg, #25D366, #1ebe57);
-  color: #003b1f;
-}
+    .basic a {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
 
-.small {
-  text-align: center;
-  font-size: 12px;
-  opacity: 0.7;
-  margin-top: 12px;
-}
+    .basic a:hover {
+      background: var(--gold);
+      color: #000;
+    }
 
-footer {
-  text-align: center;
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 14px;
-}
-</style>
+    .premium a {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .premium a:hover {
+      opacity: 0.85;
+    }
+
+    .vip a {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+    }
+
+    .vip a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 90px;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="panel">
-  <h1>AYA · Family Edition</h1>
-  <p class="sub">Персонален семеен travel план за 24 часа</p>
+  <div class="container">
 
-  <label>📍 Дестинация</label>
-  <input id="dest" placeholder="Италия, Гърция, Испания..." />
+    <header>
+      <h1>SANTORINI 2026</h1>
+      <p>AYA Premium Travel Offer · Aegean Icon · Relax & Experience</p>
+    </header>
 
-  <label>📅 Период / нощи</label>
-  <input id="dates" placeholder="6 нощи / април" />
+    <section class="packages">
 
-  <label>👨‍👩‍👧‍👦 Възраст на децата</label>
-  <div class="checks">
-    <label><input type="checkbox" value="0–3 г."> 0–3 г.</label>
-    <label><input type="checkbox" value="4–7 г."> 4–7 г.</label>
-    <label><input type="checkbox" value="8–12 г."> 8–12 г.</label>
-    <label><input type="checkbox" value="13–17 г."> 13–17 г.</label>
+      <div class="card basic">
+        <h2>BASIC</h2>
+        <p>Clear structure, boutique stay and total freedom.<br>
+           Ideal for relaxed explorers.</p>
+        <a href="./pdf/AYA_SANTORINI_2026_BASIC.pdf" target="_blank">
+          Download PDF
+        </a>
+      </div>
+
+      <div class="card premium">
+        <h2>PREMIUM</h2>
+        <p>Caldera views, private transfers and curated experiences.<br>
+           Balanced, elegant, complete.</p>
+        <a href="./pdf/AYA_SANTORINI_2026_PREMIUM.pdf" target="_blank">
+          Download PDF
+        </a>
+      </div>
+
+      <div class="card vip">
+        <h2>VIP</h2>
+        <p>Private suites, exclusive access and personal design.<br>
+           Tailored beyond expectations.</p>
+        <a href="https://wa.me/359XXXXXXXXX?text=AYA%20Santorini%202026%20VIP">
+          Request VIP
+        </a>
+      </div>
+
+    </section>
+
+    <footer>
+      © AYA AI Travel · Designed with clarity, not pressure
+    </footer>
+
   </div>
-
-  <label>🚶 Темпо</label>
-  <select id="pace">
-    <option>Relaxed</option>
-    <option selected>Balanced</option>
-    <option>Active</option>
-  </select>
-
-  <label>🎯 Фокус</label>
-  <div class="checks">
-    <label><input type="checkbox" value="плаж"> плаж</label>
-    <label><input type="checkbox" value="басейн"> басейн</label>
-    <label><input type="checkbox" value="разходки"> разходки</label>
-    <label><input type="checkbox" value="kid-friendly храна"> kid-friendly храна</label>
-  </div>
-
-  <button class="btn pay" onclick="window.open('https://revolut.me/gt63','_blank')">
-    Pay 39 €
-  </button>
-
-  <button class="btn wa" onclick="sendWhatsApp()">
-    Generate WhatsApp
-  </button>
-
-  <div class="small">
-    След плащане → WhatsApp → доставка до 24h
-  </div>
-
-  <footer>
-    AYA · Private Family Travel Design
-  </footer>
-</div>
-
-<script>
-function sendWhatsApp() {
-  const dest = document.getElementById('dest').value;
-  const dates = document.getElementById('dates').value;
-  const pace = document.getElementById('pace').value;
-
-  const kids = [...document.querySelectorAll('input[type=checkbox]:checked')]
-    .filter(c => c.value.includes('г.'))
-    .map(c => c.value).join(', ') || '—';
-
-  const focus = [...document.querySelectorAll('input[type=checkbox]:checked')]
-    .filter(c => !c.value.includes('г.'))
-    .map(c => c.value).join(', ') || '—';
-
-  const leadId = Date.now();
-
-  const msg =
-`AYA, ACTIVATE — FAMILY
-
-Lead ID: ${leadId}
-Дестинация: ${dest}
-Период: ${dates}
-Деца: ${kids}
-Темпо: ${pace}
-Фокус: ${focus}`;
-
-  window.open(
-    `https://wa.me/?text=${encodeURIComponent(msg)}`,
-    '_blank'
-  );
-}
-</script>
 
 </body>
 </html>
