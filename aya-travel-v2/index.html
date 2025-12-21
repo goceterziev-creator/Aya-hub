@@ -1,38 +1,217 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AYA Travel v2.0 | Stable Build</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AYA · Family Travel Blueprint</title>
 
-    <base href="./">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
+}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      rgba(5,10,20,0.65),
+      rgba(5,10,20,0.65)
+    ),
+    url("img/aya-face-5050.png") center / cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+}
 
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
-        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; text-align: center; }
-        h1 { font-size: 2.5em; }
-        .section { padding: 40px; }
-        footer { text-align: center; padding: 30px; color: #666; }
-    </style>
+/* GLASS PANEL */
+.panel {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px 26px;
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+
+/* TEXT */
+.panel h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.panel p.sub {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-bottom: 18px;
+}
+
+/* FORM */
+label {
+  font-size: 13px;
+  opacity: 0.8;
+  display: block;
+  margin-top: 14px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.checks label {
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* BUTTONS */
+.btn {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+.pay {
+  background: linear-gradient(90deg, #00c853, #00e676);
+  color: #003b1f;
+}
+
+.wa {
+  background: linear-gradient(90deg, #25D366, #1ebe57);
+  color: #003b1f;
+}
+
+.small {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 12px;
+}
+
+footer {
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 14px;
+}
+</style>
 </head>
+
 <body>
-<div class="container">
-<header>
-<h1><i class="fas fa-plane"></i> AYA Travel v2.0</h1>
-<p>Stable & Clean Build</p>
-</header>
 
-<div class="section">
-<p>Страницата работи стабилно. Това е чист билд, готов за GitHub Pages.</p>
+<div class="panel">
+  <h1>AYA · Family Edition</h1>
+  <p class="sub">Персонален семеен travel план за 24 часа</p>
+
+  <label>📍 Дестинация</label>
+  <input id="dest" placeholder="Италия, Гърция, Испания..." />
+
+  <label>📅 Период / нощи</label>
+  <input id="dates" placeholder="6 нощи / април" />
+
+  <label>👨‍👩‍👧‍👦 Възраст на децата</label>
+  <div class="checks">
+    <label><input type="checkbox" value="0–3 г."> 0–3 г.</label>
+    <label><input type="checkbox" value="4–7 г."> 4–7 г.</label>
+    <label><input type="checkbox" value="8–12 г."> 8–12 г.</label>
+    <label><input type="checkbox" value="13–17 г."> 13–17 г.</label>
+  </div>
+
+  <label>🚶 Темпо</label>
+  <select id="pace">
+    <option>Relaxed</option>
+    <option selected>Balanced</option>
+    <option>Active</option>
+  </select>
+
+  <label>🎯 Фокус</label>
+  <div class="checks">
+    <label><input type="checkbox" value="плаж"> плаж</label>
+    <label><input type="checkbox" value="басейн"> басейн</label>
+    <label><input type="checkbox" value="разходки"> разходки</label>
+    <label><input type="checkbox" value="kid-friendly храна"> kid-friendly храна</label>
+  </div>
+
+  <button class="btn pay" onclick="window.open('https://revolut.me/gt63','_blank')">
+    Pay 39 €
+  </button>
+
+  <button class="btn wa" onclick="sendWhatsApp()">
+    Generate WhatsApp
+  </button>
+
+  <div class="small">
+    След плащане → WhatsApp → доставка до 24h
+  </div>
+
+  <footer>
+    AYA · Private Family Travel Design
+  </footer>
 </div>
 
-<footer>
-<p>© 2025 AYA Travel</p>
-</footer>
-</div>
+<script>
+function sendWhatsApp() {
+  const dest = document.getElementById('dest').value;
+  const dates = document.getElementById('dates').value;
+  const pace = document.getElementById('pace').value;
+
+  const kids = [...document.querySelectorAll('input[type=checkbox]:checked')]
+    .filter(c => c.value.includes('г.'))
+    .map(c => c.value).join(', ') || '—';
+
+  const focus = [...document.querySelectorAll('input[type=checkbox]:checked')]
+    .filter(c => !c.value.includes('г.'))
+    .map(c => c.value).join(', ') || '—';
+
+  const leadId = Date.now();
+
+  const msg =
+`AYA, ACTIVATE — FAMILY
+
+Lead ID: ${leadId}
+Дестинация: ${dest}
+Период: ${dates}
+Деца: ${kids}
+Темпо: ${pace}
+Фокус: ${focus}`;
+
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(msg)}`,
+    '_blank'
+  );
+}
+</script>
+
 </body>
 </html>
